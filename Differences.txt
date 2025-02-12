@@ -1,0 +1,19 @@
+Key Differences Between the Two Implementations
+
+Loss Functions: Standard GAN: It usually consists of binary cross-entropy loss. The generator attempts to fool the discriminator by generating images that may not be distinguishable from real images. The discriminator, then again, classifies the images into real or fake based on probabilities. LSGAN: This utilizes the Least Squares loss that minimizes a distance between the true labels-1 for real, 0 for fake-and the discriminator's predictions. This formulation has been designed to yield more stable gradients and better convergence properties.
+
+Training of Discriminator and Generator: Standard GAN uses binary labels for the discriminator, 0 and 1, and commonly utilizes the sigmoid activation in the discriminator output. The generator tries to maximize the possibility that the discriminator makes a mistake in classifying a generated image as real. LSGAN: The key difference between LSGAN and the original is in the use of continuous values -1 as a label for real and 0 as a label for fake-in the loss function. Herein, the generator tries to minimize the difference between its output and the target label, which is 1, while the discriminator minimizes the difference to its outputs and target labels, 0 for fake and 1 for real.
+
+Training Loop: Standard GAN: In the training loop, the loss is logged every 200 steps. This may help in monitoring training performance but can introduce noise into the updates. LSGAN: Losses are printed every 10 epochs, which may reduce the frequency of loss monitoring, but it can also be a more stable way to evaluate performance across longer training periods.
+
+Gradient Flow: Standard GAN: The gradient can vanish or explode when using BCE loss, especially when the discriminator becomes very confident in its predictions. LSGAN: By using least squares loss, the gradients are smoother, which often results in more stable and consistent training.
+
+Which One Is Better? The choice between a standard GAN and an LSGAN often depends on the specific problem and dataset being used. Here are some considerations:
+
+Stability: LSGANs are generally more stable and may converge more reliably than traditional GANs, especially in cases where the discriminator overfits or becomes too strong early in training.
+
+Quality of Generated Images: While LSGANs often produce visually appealing results, standard GANs can also perform well. The choice may come down to empirical testing on your specific dataset to see which one yields better results.
+
+Training Time: Depending on the architecture and dataset, LSGANs may require more training time due to their continuous loss function but could yield better convergence in practice.
+
+For our dataset compared to GAN we can see the better performance of LSGAN. In GAN generator loss is higher than discriminator loss and real score is greater than fake score. Coming to LSGAN with the increase in epochs discriminator and generator losses came to constant, real scores and fake scores are almost same which shows that LSGAN performed well compared to GAN.
